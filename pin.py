@@ -8,9 +8,10 @@ from selenium.common.exceptions import StaleElementReferenceException, TimeoutEx
 import time
 
 # Path to the folder containing your images
-IMAGE_FOLDER = "path to your images folder"
+IMAGE_FOLDER = "C:\\Users\\arslan\\Videos\\ai\\ai\\New folder\\Minimalist Poster\\Anime\\Filtered Posters\\ByYear\\2024"
 LOG_FILE = "processed_images.log"
 SESSION_LOG_FILE = "session.log"
+FAILED_LOG_FILE = "failed_images.log"
 
 # Pinterest Pin details
 TITLE = "Anime Minimalist Poster"
@@ -94,6 +95,11 @@ def save_processed_images(log_file, images):
         for image in images:
             f.write(f"{image}\n")
 
+def save_failed_images(log_file, images):
+    with open(log_file, "a") as f:
+        for image in images:
+            f.write(f"{image}\n")
+
 def generate_title(image_file):
     # Remove the MAL ID, year, genres, replace underscores with spaces, and remove the file extension
     parts = image_file.split('_')  # Split by underscore
@@ -120,7 +126,7 @@ def prompt_section_name():
     except Exception as e:
         print(f"Error checking for sections: {e}")
 
-def process_images(driver, image_files, processed_images, new_processed_images):
+def process_images(driver, image_files, processed_images, new_processed_images, failed_images):
     for image_file in image_files:
         if len(new_processed_images) >= 20:
             break
@@ -141,13 +147,22 @@ def process_images(driver, image_files, processed_images, new_processed_images):
                 time.sleep(5)
 
             # Upload the image
-            while True:
+            upload_attempts = 0
+            while upload_attempts < 3:
                 try:
                     retry_interact_with_element(driver, By.CSS_SELECTOR, "input[data-test-id='storyboard-upload-input']", lambda e: e.send_keys(image_path))
                     break
                 except Exception as e:
-                    print(f"Error uploading image: {e}")
+                    upload_attempts += 1
+                    print(f"Error uploading image (attempt {upload_attempts}): {e}")
                     time.sleep(2)
+                    if upload_attempts == 3:
+                        print(f"Failed to upload image after 3 attempts: {image_file}")
+                        failed_images.append(image_file)
+                        continue
+
+            if upload_attempts == 3:
+                continue
 
             # Wait for the image thumbnail to be visible
             while True:
@@ -232,7 +247,8 @@ prompt_section_name()
 
 # Process images
 new_processed_images = []
-process_images(driver, os.listdir(IMAGE_FOLDER), processed_images, new_processed_images)
+failed_images = []
+process_images(driver, os.listdir(IMAGE_FOLDER), processed_images, new_processed_images, failed_images)
 
 # Prompt user to publish manually
 print("Please publish the pins manually and press Enter to continue...")
@@ -240,6 +256,9 @@ input()
 
 # Save the processed images to the log file
 save_processed_images(LOG_FILE, new_processed_images)
+
+# Save the failed images to the log file
+save_failed_images(FAILED_LOG_FILE, failed_images)
 
 # Show message when all images are published
 print(f"Processed {len(new_processed_images)} images.")
