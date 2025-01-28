@@ -8,7 +8,7 @@ from selenium.common.exceptions import StaleElementReferenceException, TimeoutEx
 import time
 
 # Path to the folder containing your images
-IMAGE_FOLDER = "C:\\Users\\arslan\\Videos\\ai\\ai\\New folder\\Minimalist Poster\\Anime\\Filtered Posters\\ByYear\\2024"
+IMAGE_FOLDER = "path to your images folder"
 LOG_FILE = "processed_images.log"
 SESSION_LOG_FILE = "session.log"
 

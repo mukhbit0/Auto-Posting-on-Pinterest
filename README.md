@@ -1,7 +1,7 @@
 # Auto Posting on Pinterest 
 
 <p align="center">
-  <img src="https://i.pinimg.com/280x280_RS/1d/21/bb/1d21bba8a2daf13fe93680761588ce99.jpg" alt="Pinterest Logo" style="border-radius: 50%; width: 140px; height: 140px;">
+  <img src="logo.png" alt="Pinterest Logo" style="border-radius: 50%; width: 140px; height: 140px;">
 </p>
 
 This script automates the process of posting images to Pinterest. I created this for my Pinterest account [CogitoAnime](https://www.pinterest.com/CogitoAnime/).
