@@ -66,3 +66,11 @@ If you would like to contribute to this project, please email [mukhbit000@gmail.
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+
+
+## ☕ Support My Work  
+<div align="left">
+  <a href="https://buymeacoffee.com/mukhbit">
+    <img src="https://miro.medium.com/v2/resize:fit:1090/0*lHgOW3tB_MfDAlBf.png" alt="Buy Me A Coffee" style="width: 200px;">
+  </a>
+</div>
